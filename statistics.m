@@ -41,10 +41,13 @@
 % saveas(figure(13),'average_lifetime.jpg')
 myprofile
 %data=load('statistics.txt');
+plot_col=3;
+plot_row=4;
+
 data=load('statistics - Copy.txt');
 
 figure(1)
-subplot(3,3,1)
+subplot(plot_col,plot_row,1)
 time_series=data(:,1);
 FtsZ_in_the_cytoplasm=data(:,2);
 master_sheet{locator,42}=time_series;
@@ -56,7 +59,7 @@ plot(data(:,1),data(:,2))
 
 xlabel('number of FtsZ in the cytoplasm', 'fontsize', 8)
 ylabel('number', 'fontsize', 8)
-subplot(3,3,2)
+subplot(plot_col,plot_row,2)
 FtsZ_GTP=data(:,10);
 FtsZ_GDP=data(:,11);
 master_sheet{locator,49}=FtsZ_GTP;
@@ -65,20 +68,23 @@ ratio_D_T=number_of_D./number_of_T;
 plot(time_series_output,ratio_D_T)
 xlabel('ratio of FtsZ-GTP/FtsZ-GDP', 'fontsize', 8)
 ylabel('ratio', 'fontsize', 8)
-subplot(3,3,3)
+subplot(plot_col,plot_row,3)
 lateral_bound=data(:,6);
 master_sheet{locator,54}=lateral_bound;
 plot(data(:,1),data(:,6))
 xlabel('number of lateral bounds', 'fontsize', 8)
 ylabel('number', 'fontsize', 8)
-subplot(3,3,4)
-polymer_bound=data(:,12)+data(:,13)+data(:,14);
-%master_sheet{locator,53}=polymer_bound;
+
+subplot(plot_col,plot_row,4)
+% polymer_bound=data(:,12)+data(:,13)+data(:,14);
+% xlabel('number of lateral bounds', 'fontsize', 8)
+% ylabel('number', 'fontsize', 8)
+master_sheet{locator,56}=num_ftsz_in_ring;
 plot(time_series_output,num_ftsz_in_ring)
 %plot(data(:,1),polymer_bound)
 xlabel('number of ftsZ in the ring', 'fontsize', 8)
 ylabel('number', 'fontsize', 8)
-subplot(3,3,5)
+subplot(plot_col,plot_row,5)
 average_length=data(:,3);
 master_sheet{locator,55}=average_length;
 plot(data(:,1),average_length)
@@ -87,19 +93,19 @@ ylabel('number', 'fontsize', 8)
 master_sheet{locator,43}=time_series_output;
 
 
-subplot(3,3,6)
+subplot(plot_col,plot_row,6)
 master_sheet{locator,46}=width;
 plot(time_series_output,width);
 xlabel('ring width', 'fontsize', 8)
 ylabel('ftsZ unit,5nm', 'fontsize', 8)
 
-subplot(3,3,7)
+subplot(plot_col,plot_row,7)
 master_sheet{locator,47}=length_of_ring;
 plot(time_series_output,length_of_ring);
 xlabel('ring length', 'fontsize', 8)
 ylabel('ftsZ unit,5nm', 'fontsize', 8)
 
-subplot(3,3,8)
+subplot(plot_col,plot_row,8)
 master_sheet{locator,51}=number_of_up./(number_of_up+number_of_down);
 master_sheet{locator,52}=number_of_down./(number_of_up+number_of_down);
 plot(time_series_output,master_sheet{locator,51});
@@ -108,4 +114,30 @@ plot(time_series_output,master_sheet{locator,52});
 hold off
 xlabel('pencentage of up/down pointing FtsZ', 'fontsize', 8)
 ylabel('%', 'fontsize', 8)
+
+
+
+subplot(plot_col,plot_row,9)
+master_sheet{locator,57}=num_ftsA_in_ring;
+plot(time_series_output,num_ftsA_in_ring)
+%plot(data(:,1),polymer_bound)
+xlabel('number of ftsA in the ring', 'fontsize', 8)
+ylabel('number', 'fontsize', 8)
+
+subplot(plot_col,plot_row,10)
+master_sheet{locator,58}=number_of_AF;
+plot(time_series_output,number_of_AF)
+%plot(data(:,1),polymer_bound)
+xlabel('number of FtsZ-FtsA bounds', 'fontsize', 8)
+ylabel('number', 'fontsize', 8)
+
+
+
+
+
+
+
+
+
+
 print -dpdf panel.pdf
