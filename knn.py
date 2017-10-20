@@ -8,6 +8,9 @@ This is a temporary script file.
 from numpy import *
 import operator
 from os import listdir
+import matplotlib
+import matplotlib.pyplot as plt
+
 def creatDataSet():
     
     group=array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
@@ -41,7 +44,6 @@ def file2matrix(filename):
     for line in fr.readlines():
         line=line.strip()
         listFromLine=line.split('\t')
-        print(listFromLine)
         returnMat[index,:]=listFromLine[0:3]
         classLabelVector.append(int(listFromLine[-1]))
         index+=1
@@ -63,6 +65,10 @@ def autoNorm(dataSet):
 def datingClassTest():
     hoRatio=0.1
     datingDataMat,datingLabels=file2matrix('input/2.knn/datingTestSet2.txt')
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.scatter(datingDataMat[:, 0], datingDataMat[:, 1], 15.0*array(datingLabels), 15.0*array(datingLabels))
+    plt.show()
     #数据归一化，normalized to [0,1]
     normMat,ranges,minVals=autoNorm(datingDataMat)
     #number of total data 
@@ -72,7 +78,7 @@ def datingClassTest():
     errorCount=0.0
     for i in range(numTestVecs):
         classifierResult=classify0(normMat[i,:],normMat[numTestVecs:m,:],datingLabels[numTestVecs:m],3)
-        print("the classifier came back with: %d, the real answer is: %d" %(classifierResult,datingLabels[i]))
+        #print("the classifier came back with: %d, the real answer is: %d" %(classifierResult,datingLabels[i]))
         if(classifierResult!=datingLabels[i]):errorCount+=1.0
     print("the total error rate is: %f" %(errorCount/float(numTestVecs)))
     print(errorCount)
