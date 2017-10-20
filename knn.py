@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
-
-This is a temporary script file.
-
+ApacheCN
 """
 from numpy import *
 import operator
