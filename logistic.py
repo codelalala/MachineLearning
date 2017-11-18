@@ -55,15 +55,24 @@ def gradDecent(dataMatin, classLabels):
 #    
 #    alpha=0.01
 #    weights=one(n)
-#    
-#    for k in range(m):
-#        h=sigmoid(sum(dataMatrix[i]*weight))
-#        error=classLabels[i]-h
-#        print(weights,"*"*10,dataMatrix[i],"*"*10,error)
-#        weights=weights-alpha*dataMatrix[i]*error
+#
+    dataMatrix=mat(dataMatin)
+    labelMat=mat(classLabels).T
+    m,n=shape(dataMatin)
+    weights=mat(ones(n)).T
+    alpha=0.01
+    maxCycles=500
+    for j in range(maxCycles):
+        h=sigmoid(dataMatrix*weights)
+        error=(h-labelMat)
+        derivative=multiply(error,h,(1-h)).T*dataMatrix
+        weights=weights-alpha*derivative.T
+        #weights=weights-alpha*dataMatrix.transpose()*error
+    
+    
     return array(weights)
 
-def stoGradDecent1(dataMatin, classLabels,numIter=150):
+def stoGradDecent1(dataMatin, classLabels,numIter=1500):
     #how to change from gradeAscent to gradDecent?
     #sign of the loss function and gredient?
     dataMatrix=array(dataMatin)
@@ -81,8 +90,10 @@ def stoGradDecent1(dataMatin, classLabels,numIter=150):
                 print("the shape is not the same")
             h=sigmoid(sum(dataMatrix[randIndex]*weights))
             error=-(classLabels[randIndex]-h)
+            derivative=h*(1-h)*dataMatrix[randIndex]
             print(weights,"*"*10,dataMatrix[i],"*"*10,error)
-            weights=weights-alpha*dataMatrix[randIndex]*error
+            #weights=weights-alpha*dataMatrix[randIndex]*error
+            weights=weights-alpha*derivative
             del(dataIndex[randIndex])
         return array(weights)
 def testLR():
@@ -90,7 +101,8 @@ def testLR():
     dataMat,labelMat=loadDataSet("input/5.Logistic/TestSet.txt")
     
     dataArr=array(dataMat)
-    weights=stoGradDecent1(dataArr,labelMat)
+    weights=gradDecent(dataArr,labelMat)
+    #weights=stoGradDecent1(dataArr,labelMat)
     plotBestFit(dataArr,labelMat,weights)
     
     
