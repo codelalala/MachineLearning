@@ -33,30 +33,37 @@ def trainNB0(trainMatrix, trainCategory):
     #each row element of a column is one binary marker for a specific word in that vector position
     numWords=len(trainMatrix[0])
     #since abusive is 1, and non-abusive is 0, so sum(trainCategory) is sum of abusive
-    pAbusive=sum(trainCategory)/float(numTrainDocs)
-    
+    pAbusive=(sum(trainCategory))/float(numTrainDocs)
+    print(pAbusive)
+    #with Laplase Smoothing
+    pAbusive=(sum(trainCategory)+1)/float(numTrainDocs+numWords)
+    print(pAbusive)
+    print(shape(trainMatrix))
+    print(shape(trainMatrix[1])[0])
     p0Num=ones(numWords)
     
     p1Num=ones(numWords)
     #total num of words of non-abusive
-    p0Denom=2.0
+    #p0Denom=2.0
+    p0Denom=0
     #total num of words of abusive
-    p1Denom=2.0
+    #p1Denom=2.0
+    p1Denom=0;
     for i in range(numTrainDocs):
         if trainCategory[i]==1:
+            #print(trainMatrix[i])
             p1Num+=trainMatrix[i]
-            p1Denom+=sum(trainMatrix[i])
+            p1Denom+=1
+            #print(sum(trainMatrix[i]))
         else:
             p0Num+=trainMatrix[i]
-            p0Denom+=sum(trainMatrix[i])
+            p0Denom+=1
     #probability to obervice this word given non-abusive 
     #vector
- 
-    p1Vect=log(p1Num/p1Denom)
-    print(p1Vect)
+    p1Vect=log(p1Num+1/p1Denom+2)
     #probability to obervice this word given abusive
     #vector
-    p0Vect=log(p0Num/p0Denom)
+    p0Vect=log(p0Num+1/p0Denom+2)
     return p0Vect,p1Vect,pAbusive
 def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
     p1=sum(vec2Classify*p1Vec)+log(pClass1)
@@ -87,7 +94,7 @@ def testingNB():
 def textParse(bigString):
     import re
     listOfTokens=re.split(r'W*', bigString)
-    return [tok.lower for tok in listOfTokens if len(tok)>2]
+    return [tok.lower() for tok in listOfTokens if len(tok)>2]
 def spamTest():
     docList=[]
     classList=[]
@@ -110,6 +117,8 @@ def spamTest():
     trainMat=[]
     trainClasses=[]
     for docIndex in trainingSet:
+        #print(docIndex)
+        #print(docList[docIndex])
         trainMat.append(setOfWords2Vec(vocabList,docList[docIndex]))
         trainClasses.append(classList[docIndex])
     p0V,p1V,pSpam=trainNB0(array(trainMat),array(trainClasses))
@@ -121,7 +130,8 @@ def spamTest():
             errorCount+=1
     print('the errorCount is: ', errorCount)
     print('the testSet length is:',len(testSet))
-    print('the error rate is:', float(errorCount)/len(testSet))
+    print('the error rate is:%', float(errorCount)/len(testSet)*100)
+    
 if __name__=="__main__":
     #testingNB()
     spamTest()
