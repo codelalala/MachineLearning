@@ -50,8 +50,12 @@ def trainNB0(trainMatrix, trainCategory):
             p0Num+=trainMatrix[i]
             p0Denom+=sum(trainMatrix[i])
     #probability to obervice this word given non-abusive 
+    #vector
+ 
     p1Vect=log(p1Num/p1Denom)
+    print(p1Vect)
     #probability to obervice this word given abusive
+    #vector
     p0Vect=log(p0Num/p0Denom)
     return p0Vect,p1Vect,pAbusive
 def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
