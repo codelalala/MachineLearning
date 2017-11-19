@@ -36,7 +36,7 @@ def trainNB0(trainMatrix, trainCategory):
     pAbusive=(sum(trainCategory))/float(numTrainDocs)
     print(pAbusive)
     #with Laplase Smoothing
-    pAbusive=(sum(trainCategory)+1)/float(numTrainDocs+numWords)
+    pAbusive=(sum(trainCategory+1))/float(numTrainDocs+numWords)
     print(pAbusive)
     print(shape(trainMatrix))
     print(shape(trainMatrix[1])[0])
