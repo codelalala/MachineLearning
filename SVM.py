@@ -50,6 +50,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
             Ei=fXi-float(labelMat[i])
             
             if((labelMat[i]*Ei<-toler) and (alphas[i]<C)) or ((labelMat[i]*Ei>toler) and (alphas[i]>0)):
+                #random? What is SMO and Simplified SMO
                 j=selectJrand(i,m)
                 fXj=float(multiply(alphas,labelMat).T*(dataMatrix*dataMatrix[j,:].T))+b
                 Ej=fXj-float(labelMat[j])
